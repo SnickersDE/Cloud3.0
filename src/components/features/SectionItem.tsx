@@ -26,7 +26,7 @@ export default function SectionItem({ section, onUpdate }: SectionItemProps) {
   };
 
   return (
-    <div className="bg-accent-white border border-gray-100 rounded-xl shadow-sm overflow-hidden mb-6">
+    <div className="bg-white border border-gray-100 rounded-xl shadow-sm overflow-hidden mb-6">
       <div className="bg-secondary px-6 py-4 flex justify-between items-center border-b border-gray-100">
         <h3 className="text-lg font-bold text-primary">{section.title}</h3>
         <button
