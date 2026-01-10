@@ -32,7 +32,7 @@ export default function RichTextEditor({ content, onChange }: RichTextEditorProp
     content: content,
     editorProps: {
       attributes: {
-        class: "prose max-w-none focus:outline-none min-h-[12rem] p-4",
+        class: "prose max-w-none focus:outline-none min-h-[12rem] p-4 text-gray-700 leading-relaxed",
       },
     },
     onUpdate: ({ editor }) => {

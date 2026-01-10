@@ -10,18 +10,18 @@ const config: Config = {
     extend: {
       colors: {
         primary: {
-          DEFAULT: "#2E7D32", // Example Green
-          light: "#4CAF50",
-          dark: "#1B5E20",
+          DEFAULT: "#27be2eff", // Example Green
+          light: "#72e175ff",
+          dark: "#105614ff",
         },
         secondary: {
-          DEFAULT: "#000000",
-          light: "#333333",
+          DEFAULT: "#000000ff",
+          light: "#3e3e3eff",
         },
         accent: {
-          white: "#FFFFFF",
-          grey: "#F5F5F5",
-          darkGrey: "#9E9E9E",
+          white: "#e1e1e177",
+          grey: "#7e7777ba",
+          darkGrey: "#1c1b1bff",
         },
       },
       fontFamily: {
@@ -29,6 +29,8 @@ const config: Config = {
       },
     },
   },
-  plugins: [],
+  plugins: [
+    require("@tailwindcss/typography"),
+  ],
 };
 export default config;

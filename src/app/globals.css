@@ -38,3 +38,9 @@
     transform: rotateY(180deg);
   }
 }
+
+/* Fix for empty paragraphs in Tiptap/Prose to ensure line breaks are visible */
+.prose p:empty::before {
+  content: "\00a0";
+  display: inline-block;
+}
