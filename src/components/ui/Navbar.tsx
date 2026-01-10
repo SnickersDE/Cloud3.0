@@ -69,7 +69,7 @@ export default function Navbar() {
       <div className="container mx-auto px-4">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
-          <Link href="/" className="text-2xl font-bold text-primary tracking-tight">
+          <Link href="/" className="text-2xl font-bold text-white tracking-tight uppercase">
             Berufspädagogik
           </Link>
 

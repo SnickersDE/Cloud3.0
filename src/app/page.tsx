@@ -39,7 +39,7 @@ export default function Home() {
         />
       </motion.div>
 
-      <p className="text-xl md:text-2xl text-white max-w-2xl">
+      <p className="text-xl md:text-2xl text-white max-w-2xl font-sans">
        WILLKOMMEN AUF DER MODERNEN PLATTFORM FÜR BERUFSPÄDAGOGEN
       </p>
       
