@@ -47,12 +47,15 @@ export default function PDFSection({ pdfs, onUpload, onDelete }: PDFSectionProps
               </div>
               
               <div className="flex items-center gap-2">
-                <button
+                <a
+                  href={pdf.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="p-2 text-gray-400 hover:text-primary transition-colors"
-                  title="Download"
+                  title="PDF öffnen"
                 >
                   <Download className="w-5 h-5" />
-                </button>
+                </a>
                 <button
                   onClick={() => onDelete(pdf.id)}
                   className="p-2 text-gray-400 hover:text-red-500 transition-colors"
