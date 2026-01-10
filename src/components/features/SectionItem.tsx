@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Section } from "@/types";
 import { Settings, Save, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import RichTextEditor from "../ui/RichTextEditor";
 
 interface SectionItemProps {
   section: Section;
@@ -25,8 +26,8 @@ export default function SectionItem({ section, onUpdate }: SectionItemProps) {
   };
 
   return (
-    <div className="bg-white border border-gray-100 rounded-xl shadow-sm overflow-hidden mb-6">
-      <div className="bg-gray-50 px-6 py-4 flex justify-between items-center border-b border-gray-100">
+    <div className="bg-accent-white border border-gray-100 rounded-xl shadow-sm overflow-hidden mb-6">
+      <div className="bg-secondary px-6 py-4 flex justify-between items-center border-b border-gray-100">
         <h3 className="text-lg font-bold text-primary">{section.title}</h3>
         <button
           onClick={() => setIsEditing(!isEditing)}
@@ -46,10 +47,9 @@ export default function SectionItem({ section, onUpdate }: SectionItemProps) {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -10 }}
             >
-              <textarea
-                className="w-full h-48 p-4 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary font-mono text-sm resize-y"
-                value={content}
-                onChange={(e) => setContent(e.target.value)}
+              <RichTextEditor
+                content={content}
+                onChange={setContent}
               />
               <div className="flex justify-end mt-4 gap-2">
                 <button
@@ -74,9 +74,10 @@ export default function SectionItem({ section, onUpdate }: SectionItemProps) {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
             >
-              <div className="prose max-w-none text-gray-700 whitespace-pre-wrap leading-relaxed">
-                {section.content}
-              </div>
+              <div 
+                className="prose max-w-none text-gray-700 leading-relaxed"
+                dangerouslySetInnerHTML={{ __html: section.content }}
+              />
             </motion.div>
           )}
         </AnimatePresence>
