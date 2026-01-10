@@ -40,8 +40,7 @@ export default function Home() {
       </motion.div>
 
       <p className="text-xl md:text-2xl text-white max-w-2xl">
-        Die moderne Plattform für angehende Berufspädagogen. 
-        Strukturiert, effizient und mobil optimiert.
+       WILLKOMMEN AUF DER MODERNEN PLATTFORM FÜR BERUFSPÄDAGOGEN
       </p>
       
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-12 w-full max-w-4xl">
