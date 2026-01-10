@@ -4,6 +4,14 @@
 
 @layer base {
   body {
-    @apply bg-secondary text-white font-sans antialiased;
+    /* Minimalistischer Grau-Schwarz Verlauf */
+    background: radial-gradient(circle at top left, #2a2a2a, #1a1a1a, #0a0a0a);
+    background-attachment: fixed;
+    @apply text-white font-sans antialiased min-h-screen;
+  }
+
+  /* Globale Regel für Inputs: Immer schwarzer Text auf hellem Hintergrund (Standard) */
+  input, textarea, select {
+    @apply text-gray-900;
   }
 }
