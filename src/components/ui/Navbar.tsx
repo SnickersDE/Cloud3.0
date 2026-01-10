@@ -51,6 +51,7 @@ export default function Navbar() {
     ? [
         { href: "/summaries", label: "Zusammenfassungen" },
         { href: "/flashcards", label: "Karteikarten" },
+        { href: "/quizzes", label: "Quiz" },
       ]
     : [
         { href: "/register", label: "Registrieren" },

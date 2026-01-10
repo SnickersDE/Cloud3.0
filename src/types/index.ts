@@ -38,3 +38,39 @@ export interface Deck {
   progress: number;
   cards: Flashcard[];
 }
+
+export type QuizDifficulty = "Grundlagen" | "Vertiefung" | "Prüfungsvorbereitung";
+export type QuestionType = "multiple_choice" | "single_choice" | "short_answer";
+
+export interface QuizQuestion {
+  id: string;
+  quiz_id: string;
+  type: QuestionType;
+  question: string;
+  options?: string[]; // For MC/SC
+  correct_answer?: any; // indices array for MC/SC, string for short_answer
+  feedback: string;
+  order: number;
+}
+
+export interface Quiz {
+  id: string;
+  title: string;
+  description: string;
+  module_id?: string;
+  difficulty: QuizDifficulty;
+  time_limit_seconds?: number; // null/0 = no limit
+  user_id: string;
+  questions?: QuizQuestion[];
+  question_count?: number; // computed
+}
+
+export interface QuizAttempt {
+  id: string;
+  quiz_id: string;
+  user_id: string;
+  score: number;
+  max_score: number;
+  status: "in_progress" | "completed";
+  completed_at?: string;
+}
