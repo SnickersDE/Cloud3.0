@@ -28,11 +28,6 @@ export default function Home() {
             ease: "easeInOut"
           }
         }}
-        whileHover={{
-          filter: "drop-shadow(0 0 40px rgba(255, 255, 255, 0.6))",
-          scale: 1.05,
-          transition: { duration: 0.3 }
-        }}
         className="relative w-64 h-64 md:w-96 md:h-96"
       >
         <Image 
