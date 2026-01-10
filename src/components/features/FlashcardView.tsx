@@ -3,14 +3,15 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { Flashcard } from "@/types";
-import { RotateCcw } from "lucide-react";
+import { RotateCcw, Trash2 } from "lucide-react";
 
 interface FlashcardViewProps {
   card: Flashcard;
   onResult: (result: "known" | "unknown") => void;
+  onDelete?: () => void;
 }
 
-export default function FlashcardView({ card, onResult }: FlashcardViewProps) {
+export default function FlashcardView({ card, onResult, onDelete }: FlashcardViewProps) {
   const [isFlipped, setIsFlipped] = useState(false);
 
   // Reset flip state when card changes
@@ -33,8 +34,20 @@ export default function FlashcardView({ card, onResult }: FlashcardViewProps) {
           style={{ transformStyle: "preserve-3d" }}
         >
           {/* Front */}
-          <div className="absolute inset-0 bg-white border border-gray-200 rounded-2xl shadow-lg flex flex-col items-center justify-center p-8 backface-hidden">
+          <div className="absolute inset-0 bg-white border border-gray-200 rounded-2xl shadow-lg flex flex-col items-center justify-center p-8 backface-hidden relative">
              <span className="text-sm text-gray-400 uppercase tracking-widest mb-4">Vorderseite</span>
+             {onDelete && (
+                <button 
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onDelete();
+                  }}
+                  className="absolute top-4 right-4 text-gray-400 hover:text-red-500 transition-colors p-2"
+                  title="Karte löschen"
+                >
+                  <Trash2 className="w-5 h-5" />
+                </button>
+             )}
              <h3 className="text-2xl md:text-4xl font-bold text-center text-gray-800">
                {card.front}
              </h3>

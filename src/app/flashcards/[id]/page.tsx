@@ -4,7 +4,7 @@ import { useState, useEffect, useCallback } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { createClient } from "@/utils/supabase/client";
 import FlashcardView from "@/components/features/FlashcardView";
-import { ArrowLeft, CheckCircle, RotateCcw, Plus, Loader2 } from "lucide-react";
+import { ArrowLeft, CheckCircle, RotateCcw, Plus, Loader2, Trash2, Edit3, Save, X } from "lucide-react";
 import Link from "next/link";
 import { Deck, Flashcard } from "@/types";
 import { motion, AnimatePresence } from "framer-motion";
@@ -27,6 +27,9 @@ export default function LearningSessionPage() {
   const [newFront, setNewFront] = useState("");
   const [newBack, setNewBack] = useState("");
   const [isAddingCard, setIsAddingCard] = useState(false);
+
+  const [isEditingDeck, setIsEditingDeck] = useState(false);
+  const [editedTitle, setEditedTitle] = useState("");
 
   const fetchDeckData = useCallback(async () => {
     try {
@@ -54,6 +57,7 @@ export default function LearningSessionPage() {
         cards: cardsData || [],
       });
       setCards(cardsData || []);
+      setEditedTitle(deckData.title);
     } catch (err) {
       console.error("Error loading deck:", err);
     } finally {
@@ -108,6 +112,33 @@ export default function LearningSessionPage() {
     }
   };
 
+  const handleDeleteDeck = async () => {
+    if (!confirm("Möchtest du dieses Deck wirklich löschen?")) return;
+    try {
+      const { error } = await supabase.from("decks").delete().eq("id", id);
+      if (error) throw error;
+      router.push("/flashcards");
+    } catch (err) {
+      console.error("Error deleting deck:", err);
+      alert("Fehler beim Löschen des Decks.");
+    }
+  };
+
+  const handleUpdateDeck = async () => {
+    try {
+      const { error } = await supabase
+        .from("decks")
+        .update({ title: editedTitle })
+        .eq("id", id);
+      if (error) throw error;
+      setDeck(prev => prev ? { ...prev, title: editedTitle } : null);
+      setIsEditingDeck(false);
+    } catch (err) {
+      console.error("Error updating deck:", err);
+      alert("Fehler beim Aktualisieren des Decks.");
+    }
+  };
+
   if (isLoading) {
     return (
       <div className="flex justify-center py-20">
@@ -131,15 +162,44 @@ export default function LearningSessionPage() {
   if (cards.length === 0) {
     return (
       <div className="max-w-2xl mx-auto py-10">
-         <Link
-          href="/flashcards"
-          className="inline-flex items-center text-gray-400 hover:text-primary transition-colors mb-6"
-        >
-          <ArrowLeft className="w-4 h-4 mr-2" />
-          Zurück zur Übersicht
-        </Link>
+        <div className="flex items-center justify-between mb-6">
+          <Link
+            href="/flashcards"
+            className="inline-flex items-center text-gray-400 hover:text-primary transition-colors"
+          >
+            <ArrowLeft className="w-4 h-4 mr-2" />
+            Zurück zur Übersicht
+          </Link>
+          <div className="flex gap-2">
+            <button
+              onClick={() => setIsEditingDeck(true)}
+              className="text-xs text-gray-400 hover:text-white transition-colors"
+            >
+              Bearbeiten
+            </button>
+            <span className="text-gray-600">|</span>
+            <button
+              onClick={handleDeleteDeck}
+              className="text-xs text-gray-400 hover:text-red-400 transition-colors"
+            >
+              Löschen
+            </button>
+          </div>
+        </div>
         <div className="bg-white rounded-xl shadow-lg p-8 text-center">
-          <h2 className="text-2xl font-bold text-gray-900 mb-4">{deck.title} ist leer</h2>
+          {isEditingDeck ? (
+            <div className="mb-4 flex items-center gap-2">
+              <input
+                value={editedTitle}
+                onChange={(e) => setEditedTitle(e.target.value)}
+                className="flex-1 px-3 py-2 border border-gray-300 rounded-lg text-gray-900 focus:outline-none focus:border-primary"
+              />
+              <button onClick={handleUpdateDeck} className="p-2 text-green-600 hover:bg-green-50 rounded"><Save className="w-5 h-5" /></button>
+              <button onClick={() => setIsEditingDeck(false)} className="p-2 text-gray-400 hover:bg-gray-100 rounded"><X className="w-5 h-5" /></button>
+            </div>
+          ) : (
+            <h2 className="text-2xl font-bold text-gray-900 mb-4">{deck.title} ist leer</h2>
+          )}
           <p className="text-gray-600 mb-8">Füge die ersten Karteikarten hinzu, um zu starten.</p>
           
           <form onSubmit={handleAddCard} className="space-y-4 text-left">
@@ -241,7 +301,30 @@ export default function LearningSessionPage() {
       <div className="flex-grow flex flex-col items-center justify-center gap-8">
         <FlashcardView 
           card={cards[currentIndex]} 
-          onResult={handleResult} 
+          onResult={handleResult}
+          onDelete={async () => {
+            if (!confirm("Karte wirklich löschen?")) return;
+            const currentCard = cards[currentIndex];
+            const { error } = await supabase.from("flashcards").delete().eq("id", currentCard.id);
+            if (!error) {
+               // Update local state
+               const newCards = cards.filter(c => c.id !== currentCard.id);
+               setCards(newCards);
+               
+               if (newCards.length === 0) {
+                 // Deck is now empty, user asked to delete deck if empty? 
+                 // "wenn man jede Karte beispielsweise einzelnt löscht bis keine mehr übrig ist, das Deck aus der Gesamtübersicht verschwindet."
+                 // Yes, delete deck.
+                 await supabase.from("decks").delete().eq("id", id);
+                 router.push("/flashcards");
+               } else {
+                 // Move to next card or previous if last
+                 if (currentIndex >= newCards.length) {
+                   setCurrentIndex(newCards.length - 1);
+                 }
+               }
+            }
+          }}
         />
         
         {/* Add Card Shortcut for quick editing */}
@@ -275,6 +358,36 @@ export default function LearningSessionPage() {
                </button>
              </form>
            </details>
+
+           <div className="flex justify-center gap-4 mt-6 pt-6 border-t border-gray-700/50">
+             {isEditingDeck ? (
+               <div className="flex items-center gap-2">
+                 <input
+                   value={editedTitle}
+                   onChange={(e) => setEditedTitle(e.target.value)}
+                   className="bg-white/10 border border-white/20 rounded px-3 py-1 text-white text-sm"
+                 />
+                 <button onClick={handleUpdateDeck} className="p-1 text-green-400 hover:text-green-300"><Save className="w-4 h-4" /></button>
+                 <button onClick={() => setIsEditingDeck(false)} className="p-1 text-gray-400 hover:text-gray-300"><X className="w-4 h-4" /></button>
+               </div>
+             ) : (
+               <button
+                 onClick={() => setIsEditingDeck(true)}
+                 className="flex items-center gap-2 text-sm text-gray-400 hover:text-white transition-colors"
+               >
+                 <Edit3 className="w-4 h-4" />
+                 Deck bearbeiten
+               </button>
+             )}
+             
+             <button
+               onClick={handleDeleteDeck}
+               className="flex items-center gap-2 text-sm text-gray-400 hover:text-red-400 transition-colors"
+             >
+               <Trash2 className="w-4 h-4" />
+               Deck löschen
+             </button>
+           </div>
         </div>
       </div>
     </div>
