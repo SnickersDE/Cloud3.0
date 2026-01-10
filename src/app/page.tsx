@@ -51,7 +51,7 @@ export default function Home() {
             whileTap={{ scale: 0.98 }}
             className="p-6 bg-white/5 rounded-xl transition-all border border-white/10 h-full flex flex-col justify-start hover:border-primary/50"
           >
-            <h3 className="text-2xl font-semibold mb-2 text-primary">Zusammenfassungen</h3>
+            <h3 className="text-2xl font-semibold mb-2 text-white">Zusammenfassungen</h3>
             <p className="text-white/80">
               Greife auf strukturierte Modulinhalte zu, lade PDFs herunter und bearbeite deine Lernunterlagen.
             </p>
@@ -65,7 +65,7 @@ export default function Home() {
             whileTap={{ scale: 0.98 }}
             className="p-6 bg-white/5 rounded-xl transition-all border border-white/10 h-full flex flex-col justify-start hover:border-primary/50"
           >
-            <h3 className="text-2xl font-semibold mb-2 text-primary">Karteikarten</h3>
+            <h3 className="text-2xl font-semibold mb-2 text-white">Karteikarten</h3>
             <p className="text-white/80">
               Lerne effizient mit unserem integrierten Karteikartensystem. Erstelle Decks und tracke deinen Fortschritt.
             </p>
@@ -79,7 +79,7 @@ export default function Home() {
             whileTap={{ scale: 0.98 }}
             className="p-6 bg-white/5 rounded-xl transition-all border border-white/10 h-full flex flex-col justify-start hover:border-primary/50"
           >
-            <h3 className="text-2xl font-semibold mb-2 text-primary">Quiz</h3>
+            <h3 className="text-2xl font-semibold mb-2 text-white">Quiz</h3>
             <p className="text-white/80">
                Teste dein Wissen mit interaktiven Quizzes. Verschiedene Modi und detaillierte Auswertungen helfen dir, deinen Lernstand zu überprüfen.
             </p>
@@ -91,7 +91,7 @@ export default function Home() {
              whileHover={{ scale: 1.02, backgroundColor: "rgba(255, 255, 255, 0.1)" }}
              className="p-6 bg-white/5 rounded-xl transition-all border border-white/10 h-full flex flex-col justify-start cursor-default hover:border-primary/50"
         >
-          <h3 className="text-2xl font-semibold mb-2 text-primary">Vernetzen</h3>
+          <h3 className="text-2xl font-semibold mb-2 text-white">Vernetzen</h3>
           <p className="text-white/80">
             Der aktive Austausch und die Vernetzung mit Kommilitonen fördern das Verständnis komplexer Inhalte. Gemeinsames Reflektieren stärkt die pädagogische Professionalität nachhaltig.
           </p>

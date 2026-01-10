@@ -114,7 +114,7 @@ export default function SummariesPage() {
     <div className="space-y-8 pb-20">
       <div className="flex flex-col md:flex-row justify-between items-center gap-4">
         <div>
-          <h1 className="text-3xl font-bold text-primary">Zusammenfassungen</h1>
+          <h1 className="text-3xl font-bold text-white">Zusammenfassungen</h1>
           <p className="text-white mt-1">
             Finde und lerne strukturierte Inhalte.
           </p>
