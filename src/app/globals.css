@@ -15,3 +15,23 @@
     @apply text-gray-900;
   }
 }
+
+@layer utilities {
+  .preserve-3d {
+    transform-style: preserve-3d;
+  }
+  
+  .perspective-1000 {
+    perspective: 1000px;
+  }
+  
+  .backface-hidden {
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden; /* Safari Support */
+  }
+
+  /* Hilfsklasse um Rückseite zu drehen */
+  .rotate-y-180 {
+    transform: rotateY(180deg);
+  }
+}
