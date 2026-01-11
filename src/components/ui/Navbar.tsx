@@ -1,8 +1,9 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, User, LogOut } from "lucide-react";
 import { createClient } from "@/utils/supabase/client";
@@ -10,11 +11,29 @@ import { User as SupabaseUser } from "@supabase/supabase-js";
 
 export default function Navbar() {
   const router = useRouter();
+  const pathname = usePathname();
   const supabase = createClient();
   
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [user, setUser] = useState<SupabaseUser | null>(null);
+  const [showLogo, setShowLogo] = useState(false);
+
+  useEffect(() => {
+    // Check if logo should be shown based on session or current path
+    const sessionLogo = sessionStorage.getItem("logoShown");
+    
+    if (sessionLogo === "true") {
+      setShowLogo(true);
+    } else {
+      // If not shown yet, check if we are on a valid subpage (not home/login/register)
+      const excludedPaths = ["/", "/login", "/register"];
+      if (!excludedPaths.includes(pathname)) {
+        setShowLogo(true);
+        sessionStorage.setItem("logoShown", "true");
+      }
+    }
+  }, [pathname]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -69,9 +88,29 @@ export default function Navbar() {
       <div className="container mx-auto px-4">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
-          <Link href="/" className="text-2xl font-bold text-white tracking-tight uppercase">
-            Berufspädagogik
-          </Link>
+          <div className="flex items-center">
+            <AnimatePresence>
+              {showLogo && (
+                <motion.div
+                  initial={{ opacity: 0, x: 20, width: 0, marginRight: 0 }}
+                  animate={{ opacity: 1, x: 0, width: "auto", marginRight: 12 }}
+                  transition={{ duration: 0.6, ease: "easeOut" }}
+                  className="flex items-center"
+                >
+                  <Image 
+                    src="/logo.png" 
+                    alt="Logo" 
+                    width={40} 
+                    height={40} 
+                    className="object-contain"
+                  />
+                </motion.div>
+              )}
+            </AnimatePresence>
+            <Link href="/" className="text-2xl font-bold text-white tracking-tight uppercase">
+              Berufspädagogik
+            </Link>
+          </div>
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-8">
