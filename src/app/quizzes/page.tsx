@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { createClient } from "@/utils/supabase/client";
 import { Quiz, Module } from "@/types";
 import { motion, AnimatePresence } from "framer-motion";
-import { Plus, X, Loader2, BrainCircuit, Clock, GraduationCap } from "lucide-react";
+import { Plus, X, Loader2, Brain, Clock, GraduationCap } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
@@ -179,7 +179,7 @@ export default function QuizzesPage() {
                           quiz.difficulty === "Vertiefung" ? "bg-blue-500/10 text-blue-400" :
                           "bg-red-500/10 text-red-400"
                         }`}>
-                          <BrainCircuit className="w-6 h-6" />
+                          <Brain className="w-6 h-6" />
                         </div>
                         {quiz.status && quiz.status !== "offen" && (
                           <div className={`p-3 rounded-lg flex items-center justify-center ${
@@ -219,7 +219,7 @@ export default function QuizzesPage() {
           </div>
         ) : (
           <div className="text-center py-20 bg-gray-800/30 rounded-2xl border border-dashed border-gray-700">
-            <BrainCircuit className="w-16 h-16 text-gray-600 mx-auto mb-4" />
+            <Brain className="w-16 h-16 text-gray-600 mx-auto mb-4" />
             <h3 className="text-xl font-bold text-white mb-2">Keine Quizze vorhanden</h3>
             <p className="text-gray-400 mb-6">Erstelle das erste Quiz um dein Wissen zu testen.</p>
             <button
