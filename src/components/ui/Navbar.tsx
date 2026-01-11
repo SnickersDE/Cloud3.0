@@ -77,6 +77,12 @@ export default function Navbar() {
         { href: "/login", label: "Anmelden" },
       ];
 
+  const handleHomeClick = () => {
+    if (pathname === "/") return;
+    setShowLogo(false);
+    sessionStorage.removeItem("logoShown");
+  };
+
   return (
     <nav
       className={`sticky top-0 z-50 transition-all duration-300 ${
@@ -94,8 +100,9 @@ export default function Navbar() {
                 <motion.div
                   initial={{ opacity: 0, x: 20, width: 0, marginRight: 0 }}
                   animate={{ opacity: 1, x: 0, width: "auto", marginRight: 12 }}
-                  transition={{ duration: 0.6, ease: "easeOut" }}
-                  className="flex items-center"
+                  exit={{ opacity: 0, x: 20, width: 0, marginRight: 0 }}
+                  transition={{ duration: 0.6, ease: "easeInOut" }}
+                  className="flex items-center overflow-hidden"
                 >
                   <Image 
                     src="/logo.png" 
@@ -107,7 +114,11 @@ export default function Navbar() {
                 </motion.div>
               )}
             </AnimatePresence>
-            <Link href="/" className="text-2xl font-bold text-white tracking-tight uppercase">
+            <Link 
+              href="/" 
+              onClick={handleHomeClick}
+              className="text-2xl font-bold text-white tracking-tight uppercase"
+            >
               Berufspädagogik
             </Link>
           </div>
