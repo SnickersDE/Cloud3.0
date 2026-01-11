@@ -12,6 +12,12 @@ const leagueSpartan = League_Spartan({
 export const metadata: Metadata = {
   title: "Berufspädagogik",
   description: "Cloudbasierte Studentenplattform",
+  icons: {
+    icon: "/logo.png",
+    shortcut: "/logo.png",
+    apple: "/logo.png",
+  },
+  manifest: "/manifest.json",
 };
 
 export default function RootLayout({
